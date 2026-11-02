@@ -1,0 +1,107 @@
+
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Truth or Dare — Entre Vocês</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h2>TRUTH <span>·</span> DARE</h2>
+      <button id="settings-open">⚙</button>
+    </header>
+
+    <section id="setup-panel">
+      <p class="eyebrow">UM JOGO PARA DOIS OU MAIS</p>
+      <h1>Até onde<br><em>vocês vão?</em></h1>
+      <p>Adiciona os participantes para começar.</p>
+
+      <form id="player-form">
+        <input id="player-name" placeholder="Nome do jogador..." required>
+        <button type="submit">+</button>
+      </form>
+
+      <div id="player-list"></div>
+
+      <button id="start-game" disabled>Começar jogo →</button>
+    </section>
+
+    <section id="game-panel" class="hidden">
+      <p>É A TUA VEZ</p>
+      <h1 id="current-player"></h1>
+      <p id="turn-count"></p>
+
+      <div class="choices">
+        <button data-type="truth">VERDADE</button>
+        <button data-type="dare">CONSEQUÊNCIA</button>
+      </div>
+
+      <button id="next-player">Passar jogador</button>
+      <button id="end-game">Terminar sessão</button>
+    </section>
+
+    <section id="result-panel" class="hidden">
+      <button id="back-to-turn">← Voltar</button>
+      <p id="prompt-type"></p>
+      <p id="prompt-category"></p>
+      <h2 id="prompt-text"></h2>
+      <p id="prompt-level"></p>
+
+      <button id="skip-prompt">Trocar desafio</button>
+      <button id="complete-prompt">Concluído ✓</button>
+    </section>
+
+    <section id="history-panel" class="hidden">
+      <h2>Histórico</h2>
+      <div id="history-list"></div>
+    </section>
+  </main>
+
+  <dialog id="settings-dialog">
+    <h2>Configurações</h2>
+
+    <label>
+      Nível máximo
+      <select id="max-level">
+        <option value="1">Leve</option>
+        <option value="2">Moderado</option>
+        <option value="3" selected>Atrevido</option>
+        <option value="4">Intenso</option>
+        <option value="5">Extremo</option>
+      </select>
+    </label>
+
+    <label>
+      Permitir repetição
+      <input type="checkbox" id="allow-repeats">
+    </label>
+
+    <label>
+      Conteúdo picante
+      <input type="checkbox" id="include-spicy" checked>
+    </label>
+
+    <button id="save-settings">Guardar</button>
+    <button onclick="document.querySelector('#settings-dialog').close()">Fechar</button>
+  </dialog>
+
+  <script src="js/storage.js"></script>
+  <script src="js/players.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+
+  <div id="roulette-overlay" class="roulette-overlay hidden">
+    <div class="roulette-card">
+        <span class="roulette-label">É A TUA VEZ</span>
+        <div class="roulette-light"></div>
+
+        <h1 id="roulette-name">???</h1>
+
+        <p id="roulette-status">A escolher o próximo jogador...</p>
+    </div>
+</div>
+</body>
+</html>
