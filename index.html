@@ -4,19 +4,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Truth or Dare — Entre Vocês</title>
+  <meta name="theme-color" content="#100b14">
+  <title>Truth or Dare — After Dark</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
   <main class="shell">
+
     <header>
       <h2>TRUTH <span>·</span> DARE</h2>
       <button id="settings-open">⚙</button>
     </header>
 
-    <section id="setup-panel">
-      <p class="eyebrow">UM JOGO PARA DOIS OU MAIS</p>
-      <h1>Até onde<br><em>vocês vão?</em></h1>
+    <!-- ESCOLHA DO MODO -->
+    <section id="mode-panel">
+      <p class="eyebrow">UMA EXPERIÊNCIA PARA DOIS OU MAIS</p>
+      <h1>Escolham o vosso<br><em>lado da noite.</em></h1>
+
+      <div class="mode-options">
+
+        <button class="mode-card normal-mode" data-mode="normal">
+          <span class="mode-number">01</span>
+          <span class="mode-title">NORMAL</span>
+          <span class="mode-description">
+            Diversão, cumplicidade e descobertas.
+          </span>
+          <span class="mode-action">ENTRAR →</span>
+        </button>
+
+        <button class="mode-card dark-mode" data-mode="adult">
+          <span class="mode-number">02</span>
+          <span class="mode-title">AFTER DARK</span>
+          <span class="mode-description">
+            Uma experiência exclusivamente para adultos.
+          </span>
+          <span class="mode-action">ENTRAR →</span>
+          <span class="adult-tag">+18</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- CONFIRMAÇÃO +18 -->
+    <section id="adult-confirmation" class="hidden">
+      <p class="eyebrow">AFTER DARK</p>
+      <h1>Esta experiência<br><em>é para adultos.</em></h1>
+      <p>Todos os participantes têm pelo menos 18 anos?</p>
+
+      <button id="confirm-adult">SIM, TODOS TEMOS 18+</button>
+      <button id="cancel-adult">VOLTAR</button>
+    </section>
+
+    <!-- CONFIGURAÇÃO DOS JOGADORES -->
+    <section id="setup-panel" class="hidden">
+      <p class="eyebrow">PREPAREM-SE</p>
+      <h1>Quem vai<br><em>jogar?</em></h1>
       <p>Adiciona os participantes para começar.</p>
 
       <form id="player-form">
@@ -25,8 +68,8 @@
       </form>
 
       <div id="player-list"></div>
-
       <button id="start-game" disabled>Começar jogo →</button>
+      <button id="change-mode">← Mudar de modo</button>
     </section>
 
     <section id="game-panel" class="hidden">
@@ -49,7 +92,6 @@
       <p id="prompt-category"></p>
       <h2 id="prompt-text"></h2>
       <p id="prompt-level"></p>
-
       <button id="skip-prompt">Trocar desafio</button>
       <button id="complete-prompt">Concluído ✓</button>
     </section>
@@ -58,6 +100,7 @@
       <h2>Histórico</h2>
       <div id="history-list"></div>
     </section>
+
   </main>
 
   <dialog id="settings-dialog">
@@ -85,23 +128,22 @@
     </label>
 
     <button id="save-settings">Guardar</button>
-    <button onclick="document.querySelector('#settings-dialog').close()">Fechar</button>
+    <button id="close-settings">Fechar</button>
   </dialog>
+
+  <div id="roulette-overlay" class="roulette-overlay hidden">
+    <div class="roulette-card">
+      <span class="roulette-label">É A TUA VEZ</span>
+      <div class="roulette-light"></div>
+      <h1 id="roulette-name">???</h1>
+      <p id="roulette-status">A escolher o próximo jogador...</p>
+    </div>
+  </div>
 
   <script src="js/storage.js"></script>
   <script src="js/players.js"></script>
   <script src="js/game.js"></script>
   <script src="js/app.js"></script>
 
-  <div id="roulette-overlay" class="roulette-overlay hidden">
-    <div class="roulette-card">
-        <span class="roulette-label">É A TUA VEZ</span>
-        <div class="roulette-light"></div>
-
-        <h1 id="roulette-name">???</h1>
-
-        <p id="roulette-status">A escolher o próximo jogador...</p>
-    </div>
-</div>
 </body>
 </html>

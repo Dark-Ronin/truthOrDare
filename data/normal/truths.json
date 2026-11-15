@@ -1,0 +1,28 @@
+[
+  {"id":1,"category":"Gostos","level":1,"text":"Qual é a comida que te faz feliz só de sentires o cheiro?"},
+  {"id":2,"category":"Gostos","level":1,"text":"Que música nunca te cansas de ouvir?"},
+  {"id":3,"category":"Rotina","level":1,"text":"És mais de manhã ou de noite? Como é o teu dia perfeito?"},
+  {"id":4,"category":"Infância","level":1,"text":"Qual é a tua melhor memória de criança?"},
+  {"id":5,"category":"Diversão","level":1,"text":"Qual foi a coisa mais embaraçosa que já te aconteceu em público?"},
+  {"id":6,"category":"Viagens","level":1,"text":"Para onde irias amanhã se pudesses viajar sem pensar em dinheiro?"},
+  {"id":7,"category":"Manias","level":1,"text":"Qual é a tua mania mais estranha?"},
+  {"id":8,"category":"Gostos","level":1,"text":"Que filme ou série já viste mais de três vezes?"},
+
+  {"id":9,"category":"Valores","level":2,"text":"O que é mais importante para ti numa amizade ou relação?"},
+  {"id":10,"category":"Sonhos","level":2,"text":"Qual é o sonho que tens e que poucas pessoas conhecem?"},
+  {"id":11,"category":"Primeira impressão","level":2,"text":"O que pensaste de mim quando me conheceste?"},
+  {"id":12,"category":"Família","level":2,"text":"Com quem da tua família te pareces mais, e em quê?"},
+  {"id":13,"category":"Medos","level":2,"text":"De que tens medo e normalmente não dizes a ninguém?"},
+  {"id":14,"category":"Romance","level":2,"text":"Qual seria para ti um encontro perfeito?"},
+  {"id":15,"category":"Passado","level":2,"text":"O que aprendeste com a tua última relação ou desilusão?"},
+  {"id":16,"category":"Gestos","level":2,"text":"Que gesto de carinho te faz sentir mais especial?"},
+
+  {"id":17,"category":"Confiança","level":3,"text":"O que preciso de fazer para ganhares confiança em mim?"},
+  {"id":18,"category":"Futuro","level":3,"text":"Como imaginas a tua vida daqui a cinco anos?"},
+  {"id":19,"category":"Atração","level":3,"text":"O que em mim te chamou mais a atenção?"},
+  {"id":20,"category":"Limites","level":3,"text":"Que coisa numa relação é inegociável para ti?"},
+  {"id":21,"category":"Vulnerabilidade","level":3,"text":"Quando foi a última vez que choraste e porquê?"},
+  {"id":22,"category":"Carinho","level":3,"text":"Como gostas de receber carinho: palavras, tempo juntos, toque ou presentes?"},
+  {"id":23,"category":"Inseguranças","level":3,"text":"O que mais te inseguriza em ti, e o que gostavas de ouvir sobre isso?"},
+  {"id":24,"category":"Expectativas","level":3,"text":"O que esperas de nós daqui para a frente?"}
+]

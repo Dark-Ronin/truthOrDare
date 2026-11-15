@@ -2,6 +2,8 @@
 const Game = {
   truths: [],
   dares: [],
+  mode: null,
+
   settings: {
     maxLevel: 3,
     allowRepeats: false,
@@ -19,10 +21,27 @@ const Game = {
   round: 0,
   currentPrompt: null,
 
-  async load() {
+  async load(mode = "normal") {
+    if (!["normal", "adult"].includes(mode)) {
+      throw new Error("Modo de jogo inválido.");
+    }
+
+    this.mode = mode;
+
+    const folder = mode === "adult" ? "adult" : "normal";
+
     const [truths, dares] = await Promise.all([
-      fetch("data/truths.json").then(r => r.json()),
-      fetch("data/dares.json").then(r => r.json())
+      fetch(`data/${folder}/truths.json`)
+        .then(response => {
+          if (!response.ok) throw new Error("Erro ao carregar verdades.");
+          return response.json();
+        }),
+
+      fetch(`data/${folder}/dares.json`)
+        .then(response => {
+          if (!response.ok) throw new Error("Erro ao carregar consequências.");
+          return response.json();
+        })
     ]);
 
     this.truths = truths;
@@ -30,8 +49,12 @@ const Game = {
 
     this.settings = {
       ...this.settings,
-      ...Storage.get("settings", {})
+      ...Storage.get(`settings-${mode}`, {})
     };
+
+    this.used = { truth: [], dare: [] };
+    this.history = [];
+    this.currentPrompt = null;
   },
 
   start() {
@@ -39,6 +62,8 @@ const Game = {
     this.used = { truth: [], dare: [] };
     this.round = 0;
     this.previousPlayerId = null;
+    this.currentPrompt = null;
+
     this.nextPlayer();
   },
 
@@ -62,6 +87,7 @@ const Game = {
 
     if (!pool.length && !this.settings.allowRepeats) {
       this.used[type] = [];
+
       pool = source.filter(item =>
         item.level <= this.settings.maxLevel &&
         (this.settings.includeSpicy || item.category !== "Picante")
@@ -79,7 +105,7 @@ const Game = {
   },
 
   record() {
-    if (!this.currentPrompt) return;
+    if (!this.currentPrompt || !this.currentPlayer) return;
 
     this.history.unshift({
       player: this.currentPlayer.name,

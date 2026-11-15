@@ -5,8 +5,69 @@ const setup = $("#setup-panel");
 const game = $("#game-panel");
 const result = $("#result-panel");
 const historyPanel = $("#history-panel");
+const modePanel = $("#mode-panel");
+const adultConfirmation = $("#adult-confirmation");
 
-// RENDERIZAÇÃO DOS JOGADORES
+let selectedMode = null;
+
+// ===================================
+// NAVEGAÇÃO ENTRE MODOS
+// ===================================
+
+function showPanel(panel) {
+  [
+    modePanel,
+    adultConfirmation,
+    setup,
+    game,
+    result,
+    historyPanel
+  ].forEach(item => item.classList.add("hidden"));
+
+  panel.classList.remove("hidden");
+}
+
+function activateMode(mode) {
+  selectedMode = mode;
+
+  document.body.classList.toggle(
+    "mode-adult",
+    mode === "adult"
+  );
+
+  showPanel(setup);
+}
+
+document.querySelectorAll(".mode-card").forEach(button => {
+  button.addEventListener("click", () => {
+    const mode = button.dataset.mode;
+
+    if (mode === "adult") {
+      showPanel(adultConfirmation);
+      return;
+    }
+
+    activateMode("normal");
+  });
+});
+
+$("#confirm-adult").addEventListener("click", () => {
+  activateMode("adult");
+});
+
+$("#cancel-adult").addEventListener("click", () => {
+  showPanel(modePanel);
+});
+
+$("#change-mode").addEventListener("click", () => {
+  selectedMode = null;
+  document.body.classList.remove("mode-adult");
+  showPanel(modePanel);
+});
+
+// ===================================
+// JOGADORES
+// ===================================
 
 function renderPlayers() {
   const container = $("#player-list");
@@ -21,6 +82,7 @@ function renderPlayers() {
 
     const remove = document.createElement("button");
     remove.textContent = "×";
+    remove.setAttribute("aria-label", `Remover ${player.name}`);
 
     remove.onclick = () => {
       Players.remove(player.id);
@@ -34,25 +96,27 @@ function renderPlayers() {
   $("#start-game").disabled = Players.list.length < 2;
 }
 
-// RENDERIZAÇÃO DA VEZ
+// ===================================
+// TURNO
+// ===================================
 
 function renderTurn(animate = false) {
   if (!Game.currentPlayer) return;
 
-  const player = Game.currentPlayer;
-
-  $("#current-player").textContent = player.name;
+  $("#current-player").textContent = Game.currentPlayer.name;
   $("#turn-count").textContent = `RODADA ${Game.round}`;
 
   if (animate) {
     runRoulette(
-      player.name,
-      Players.list.map(p => p.name)
+      Game.currentPlayer.name,
+      Players.list.map(player => player.name)
     );
   }
 }
 
+// ===================================
 // HISTÓRICO
+// ===================================
 
 function renderHistory() {
   const container = $("#history-list");
@@ -68,7 +132,9 @@ function renderHistory() {
   });
 }
 
-// MOSTRAR DESAFIO
+// ===================================
+// DESAFIOS
+// ===================================
 
 function showPrompt(type) {
   const prompt = Game.getPrompt(type);
@@ -78,8 +144,7 @@ function showPrompt(type) {
     return;
   }
 
-  game.classList.add("hidden");
-  result.classList.remove("hidden");
+  showPanel(result);
 
   $("#prompt-type").textContent =
     type === "truth" ? "VERDADE" : "CONSEQUÊNCIA";
@@ -89,7 +154,9 @@ function showPrompt(type) {
   $("#prompt-text").textContent = prompt.text;
 }
 
+// ===================================
 // ADICIONAR JOGADORES
+// ===================================
 
 $("#player-form").addEventListener("submit", event => {
   event.preventDefault();
@@ -105,64 +172,87 @@ $("#player-form").addEventListener("submit", event => {
   renderPlayers();
 });
 
+// ===================================
 // COMEÇAR JOGO
+// ===================================
 
-$("#start-game").onclick = () => {
-  Game.start();
+$("#start-game").addEventListener("click", async () => {
+  if (!selectedMode) return;
 
-  setup.classList.add("hidden");
-  game.classList.remove("hidden");
-  historyPanel.classList.remove("hidden");
+  try {
+    await Game.load(selectedMode);
+    Game.start();
 
-  renderTurn(true);
-};
+    showPanel(game);
+    historyPanel.classList.remove("hidden");
 
-// ESCOLHER VERDADE OU CONSEQUÊNCIA
-
-document.querySelectorAll(".choices button").forEach(button => {
-  button.onclick = () => {
-    showPrompt(button.dataset.type);
-  };
+    renderHistory();
+    renderTurn(true);
+  } catch (error) {
+    console.error(error);
+    alert("Não foi possível carregar os desafios deste modo.");
+  }
 });
 
-// VOLTAR AO JOGADOR
+// ===================================
+// ESCOLHER VERDADE OU CONSEQUÊNCIA
+// ===================================
 
-$("#back-to-turn").onclick = () => {
-  result.classList.add("hidden");
-  game.classList.remove("hidden");
-};
+document.querySelectorAll(".choices button").forEach(button => {
+  button.addEventListener("click", () => {
+    showPrompt(button.dataset.type);
+  });
+});
 
+// ===================================
+// VOLTAR AO TURNO
+// ===================================
+
+$("#back-to-turn").addEventListener("click", () => {
+  showPanel(game);
+  historyPanel.classList.remove("hidden");
+});
+
+// ===================================
 // TROCAR DESAFIO
+// ===================================
 
-$("#skip-prompt").onclick = () => {
+$("#skip-prompt").addEventListener("click", () => {
   if (Game.currentPrompt) {
     showPrompt(Game.currentPrompt.type);
   }
-};
+});
 
+// ===================================
 // CONCLUIR DESAFIO
+// ===================================
 
-$("#complete-prompt").onclick = () => {
+$("#complete-prompt").addEventListener("click", () => {
   Game.record();
   renderHistory();
 
   Game.nextPlayer();
+
+  showPanel(game);
+  historyPanel.classList.remove("hidden");
+
   renderTurn(true);
+});
 
-  result.classList.add("hidden");
-  game.classList.remove("hidden");
-};
-
+// ===================================
 // PASSAR JOGADOR
+// ===================================
 
-$("#next-player").onclick = () => {
+$("#next-player").addEventListener("click", () => {
   Game.nextPlayer();
   renderTurn(true);
-};
+});
 
+// ===================================
 // TERMINAR SESSÃO
+// ===================================
 
-$("#end-game").onclick = () => {
+$("#end-game").addEventListener("click", () => {
   if (!confirm("Terminar esta sessão?")) return;
 
   Game.history = [];
@@ -171,38 +261,45 @@ $("#end-game").onclick = () => {
   Game.currentPrompt = null;
   Game.round = 1;
 
-  game.classList.add("hidden");
-  result.classList.add("hidden");
-  historyPanel.classList.add("hidden");
-  setup.classList.remove("hidden");
-
-  renderPlayers();
   renderHistory();
-};
+  renderPlayers();
 
+  showPanel(setup);
+});
+
+// ===================================
 // CONFIGURAÇÕES
+// ===================================
 
-$("#settings-open").onclick = () => {
+$("#settings-open").addEventListener("click", () => {
   $("#max-level").value = Game.settings.maxLevel;
   $("#allow-repeats").checked = Game.settings.allowRepeats;
   $("#include-spicy").checked = Game.settings.includeSpicy;
 
   $("#settings-dialog").showModal();
-};
+});
 
-$("#save-settings").onclick = () => {
+$("#save-settings").addEventListener("click", () => {
   Game.settings = {
     maxLevel: Number($("#max-level").value),
     allowRepeats: $("#allow-repeats").checked,
     includeSpicy: $("#include-spicy").checked
   };
 
-  Storage.set("settings", Game.settings);
-
+  Storage.set(
+    `settings-${selectedMode || "normal"}`,
+    Game.settings
+  );
   $("#settings-dialog").close();
-};
+});
 
-// ROULETTE ANIMATION
+$("#close-settings").addEventListener("click", () => {
+  $("#settings-dialog").close();
+});
+
+// ===================================
+// ROLETA
+// ===================================
 
 const rouletteOverlay = $("#roulette-overlay");
 const rouletteName = $("#roulette-name");
@@ -235,9 +332,9 @@ function runRoulette(finalName, players) {
 
     elapsed += delay;
 
-    if (elapsed >= 3000) {
+    if (elapsed >= 500) {
       rouletteName.textContent = finalName;
-      rouletteStatus.textContent = "O destino escolheu.";
+      rouletteStatus.textContent = "Tua vez!";
 
       rouletteOverlay.classList.add("revealed");
 
@@ -257,7 +354,9 @@ function runRoulette(finalName, players) {
   spin();
 }
 
+// ===================================
 // INICIALIZAÇÃO
+// ===================================
 
 async function init() {
   Players.load();
@@ -267,11 +366,10 @@ async function init() {
     await Game.load();
   } catch (error) {
     console.error(error);
-
-    alert(
-      "Erro ao carregar os ficheiros JSON. Usa Live Server."
-    );
+    alert("Erro ao carregar os ficheiros JSON. Usa Live Server.");
   }
+
+  showPanel(modePanel);
 }
 
 init();

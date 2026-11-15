@@ -1,0 +1,28 @@
+[
+  {"id":1,"category":"Divertido","level":1,"text":"Imita a pessoa famosa ou o personagem que quiseres durante 30 segundos."},
+  {"id":2,"category":"Música","level":1,"text":"Canta o refrão da tua música favorita."},
+  {"id":3,"category":"Elogio","level":1,"text":"Diz três coisas de que gostas em mim até agora."},
+  {"id":4,"category":"Fotos","level":1,"text":"Mostra a foto mais antiga ou engraçada que tens no telemóvel e conta a história."},
+  {"id":5,"category":"Dança","level":1,"text":"Dança durante 20 segundos como se ninguém estivesse a ver."},
+  {"id":6,"category":"Desenho","level":1,"text":"Desenha-me em 30 segundos e mostra o resultado."},
+  {"id":7,"category":"Mímica","level":1,"text":"Faz mímica do teu trabalho ou hobby e eu tento adivinhar."},
+  {"id":8,"category":"Playlist","level":1,"text":"Põe a música que descreve o teu estado de espírito hoje."},
+
+  {"id":9,"category":"Mãos","level":2,"text":"Dá-me a mão e diz uma coisa que gostavas que soubesse sobre ti."},
+  {"id":10,"category":"Abraço","level":2,"text":"Dá-me um abraço de 20 segundos sem dizer nada."},
+  {"id":11,"category":"Olhar","level":2,"text":"Olha-me nos olhos durante 30 segundos e diz o que sentes."},
+  {"id":12,"category":"Mensagem","level":2,"text":"Escreve-me uma mensagem curta como se fosse uma carta para daqui a um ano."},
+  {"id":13,"category":"Passeio","level":2,"text":"Propõe um programa para fazermos juntos nos próximos dias."},
+  {"id":14,"category":"Memória","level":2,"text":"Conta-me uma história sobre ti que nunca contaste a ninguém."},
+  {"id":15,"category":"Elogio","level":2,"text":"Diz-me o que achas que é o meu melhor traço de personalidade."},
+  {"id":16,"category":"Carinho","level":2,"text":"Faz-me um carinho no cabelo ou nas mãos durante um minuto."},
+
+  {"id":17,"category":"Beijo","level":3,"text":"Dá-me um beijo na bochecha ou na testa, devagar."},
+  {"id":18,"category":"Honestidade","level":3,"text":"Diz-me uma coisa que tens receio de eu pensar sobre ti."},
+  {"id":19,"category":"Promessa","level":3,"text":"Faz-me uma promessa pequena que consigas cumprir esta semana."},
+  {"id":20,"category":"Dança","level":3,"text":"Dança comigo uma música lenta inteira."},
+  {"id":21,"category":"Massagem","level":3,"text":"Faz-me uma massagem nos ombros durante dois minutos."},
+  {"id":22,"category":"Sinceridade","level":3,"text":"Conta-me o que sentiste quando nos conhecemos, sem filtros."},
+  {"id":23,"category":"Futuro","level":3,"text":"Descreve em 30 segundos a nossa próxima saída ideal."},
+  {"id":24,"category":"Gratidão","level":3,"text":"Agradece-me por uma coisa que fiz e que te marcou."}
+]
